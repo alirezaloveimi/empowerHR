@@ -10,12 +10,14 @@ import Vacation from "@/lib/models/Vacation";
 
 import {
   addImprestSchema,
+  addPositionSchema,
   addVacationSchema,
   updateImprestSchema,
   updateVacationSchema,
 } from "@/lib/validation/employee";
 import { getChangedFields } from "@/util/form";
 import { priceWithDots } from "@/util/price";
+import Position from "@/lib/models/Position";
 
 const limitMonthRequest = 2;
 
@@ -276,4 +278,41 @@ export async function updateVacation(
 
   revalidatePath("/p-hr/vacations");
   return { message: "مرخصی با موفقیت بروزرسانی شد", success: true };
+}
+
+export async function addPosition(_: unknown, formData: FormData) {
+  const inputs = { title: formData.get("title") as string };
+  const result = addPositionSchema.safeParse(Object.fromEntries(formData));
+
+  if (!result.success) {
+    return {
+      message: "لطفا خطاها رو برطرف کنید",
+      errros: result.error.flatten().fieldErrors,
+      success: false,
+      inputs,
+    };
+  }
+
+  const { title } = result.data;
+
+  try {
+    await connectDB();
+    const position = await Position.findOne({ title });
+
+    if (position) {
+      return {
+        message: "شغل با این عنوان موجود میباشد",
+        success: false,
+        inputs,
+      };
+    }
+
+    await Position.create({ title });
+  } catch (e) {
+    console.log(e);
+    return { message: "مشکلی سمت سرور", success: false };
+  }
+
+  revalidatePath("/p-hr/positions");
+  return { message: "شغل جدید با موفقیت ایجاد شد", success: true };
 }

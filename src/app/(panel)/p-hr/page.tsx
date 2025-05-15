@@ -11,6 +11,7 @@ import RenderList from "@/components/RenderList";
 import { getStatusInfo } from "@/util/status";
 import Image from "next/image";
 import { priceWithDots } from "@/util/price";
+import Position from "@/lib/models/Position";
 
 const getRecords = async <T,>(
   model: Model<T>,
@@ -41,6 +42,7 @@ const getRecords = async <T,>(
 const getImprests = () => getRecords<Imprest>(Imprest);
 const getVacations = () => getRecords<Vacation>(Vacation);
 const getUsers = () => getRecords<User>(User, false, { role: "EMPLOYEE" });
+const getPostions = () => getRecords<Position>(Position, false);
 
 export default async function PHrPage() {
   const user = await getUser();
@@ -53,11 +55,17 @@ export default async function PHrPage() {
     { count: imprestCount, data: imprestData },
     { count: vacationCount, data: vacationData },
     { count: userCount },
-  ] = await Promise.all([getImprests(), getVacations(), getUsers()]);
+    { count: positionCount },
+  ] = await Promise.all([
+    getImprests(),
+    getVacations(),
+    getUsers(),
+    getPostions(),
+  ]);
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <h2 className="text-lg font-semibold">تعداد مرخصی‌ها</h2>
           <p className="text-3xl font-bold mt-2">{vacationCount}</p>
@@ -71,6 +79,11 @@ export default async function PHrPage() {
         <Card>
           <h2 className="text-lg font-semibold">تعداد کارمندان</h2>
           <p className="text-3xl font-bold mt-2">{userCount}</p>
+        </Card>
+
+        <Card>
+          <h2 className="text-lg font-semibold">تعداد شغل ها</h2>
+          <p className="text-3xl font-bold mt-2">{positionCount}</p>
         </Card>
       </div>
 

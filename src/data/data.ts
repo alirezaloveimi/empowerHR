@@ -6,8 +6,9 @@ export const asideLinks = {
     { id: 2, title: "کارمندان", href: "/p-hr/employees", icon: icons.employee },
     { id: 3, title: "مرخصی ها", href: "/p-hr/vacations", icon: icons.vacation },
     { id: 4, title: "مساعده ها", href: "/p-hr/imprests", icon: icons.dollar },
+    { id: 5, title: "شغل ها", href: "/p-hr/positions", icon: icons.work },
     {
-      id: 5,
+      id: 6,
       title: "پروفایل",
       href: "/p-hr/profile",
       icon: icons.profile,

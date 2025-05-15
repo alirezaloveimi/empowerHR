@@ -15,10 +15,10 @@ export default {
         secondary: "var(--secondary)",
         muted: "var(--muted)",
       },
-    },
-    container: {
-      center: true,
-      padding: "1rem",
+      container: {
+        center: true,
+        padding: "1rem",
+      },
     },
   },
   plugins: [],

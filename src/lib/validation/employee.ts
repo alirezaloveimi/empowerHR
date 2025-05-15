@@ -22,3 +22,9 @@ export const addVacationSchema = z.object({
 });
 
 export const updateVacationSchema = updateImprestSchema;
+
+export const addPositionSchema = z.object({
+  title: z
+    .string()
+    .refine((value) => isEmpty(value), "عنوان شغل نمیتواند خالی باشد"),
+});

@@ -16,7 +16,7 @@ export default async function Aside() {
 
   return (
     <aside className="lg:col-span-3 md:sticky md:top-24">
-      <div className="py-5 h-full space-y-8">
+      <div className="h-full space-y-8">
         <div>
           <div className="relative size-16">
             <Image
